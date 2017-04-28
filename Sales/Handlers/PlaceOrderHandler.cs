@@ -12,8 +12,10 @@ namespace Sales.Handlers
         public Task Handle(PlaceOrder message, IMessageHandlerContext context)
         {
             logger.Info($"Receiver a PlaceOrder message with OrderId {message.OrderId}.");
-            
-            return Task.CompletedTask;
+
+            var placedOrder = new OrderPlaced {OrderId = message.OrderId};
+
+            return context.Publish(placedOrder);
         }
     }
 }
