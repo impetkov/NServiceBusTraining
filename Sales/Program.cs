@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using NServiceBus;
 using static System.Console;
 
@@ -41,6 +42,11 @@ namespace Sales
     <SignatureValue>zJteJlapcGr5T7Wk2J6SaYXt+hIrxKzaLoI0iSWREUsr0LbCTNpQsTwGNj4zgsUpNqhhtl9i5TThQSTQGzB+k1hqfiFvIAYrbaptThhkZ5EBydb4I+UzeVJYXYVb/wAcyYF0ez1ihX0laJwzDfUbLLMnAJg6W87QpKhQYgUpawo=</SignatureValue>
   </Signature>
 </license>");
+
+            var recoverability = endpointConfiguration.Recoverability();
+            recoverability.Immediate(immediate => immediate.NumberOfRetries(0));
+            recoverability.Delayed(delayed => delayed.NumberOfRetries(3));
+            recoverability.Delayed(delayed => delayed.TimeIncrease(TimeSpan.FromSeconds(3)));
 
             var endpointInstance = await Endpoint.Start(endpointConfiguration).ConfigureAwait(false);
             Clear();

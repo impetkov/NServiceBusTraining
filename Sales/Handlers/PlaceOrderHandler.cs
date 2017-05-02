@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Messages;
 using NServiceBus;
 using NServiceBus.Logging;
@@ -12,6 +13,8 @@ namespace Sales.Handlers
         public Task Handle(PlaceOrder message, IMessageHandlerContext context)
         {
             logger.Info($"Receiver a PlaceOrder message with OrderId {message.OrderId}.");
+
+            //throw new Exception("Dummy exception");
 
             var placedOrder = new OrderPlaced {OrderId = message.OrderId};
 
